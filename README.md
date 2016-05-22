@@ -12,3 +12,9 @@ The famous Monty Hall problem
 Cancer Test
 ![alt text](http://xceptionale.com/assets/images/f3566188.Bayes2.png "Cancer Test")
 
+Will it rain tomorrow
+![alt text](http://xceptionale.com/assets/images/2e80c3a0.Bayes3.png "Will it rain tomorrow")
+
+Dragons Dice
+![alt text](http://xceptionale.com/assets/images/3f1b3a7f.Bayes4.png "Dragons Dice")
+
