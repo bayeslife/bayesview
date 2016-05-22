@@ -20,8 +20,8 @@ Dragons Dice
 
 # Run
 
-npm install
-bower install
+npm install;
+bower install;
 grunt serve 
 
 # Backend
