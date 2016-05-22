@@ -1,0 +1,244 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-12">
+         <header val="dataset"/>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-4">
+          <div ng-show="!editContent"><span class="title">{{problem.title}}</span>
+            <button ng-show="!editContent"  class="buttonlink" href="" ng-click="editContent=true">Edit</button>  
+          </div>  
+          <div ng-show="!editContent" ng-bind-html="problem.content">          
+          </div>                     
+          
+          <form ng-show="editContent" name="edit">
+              <table>
+                  <tr>
+                      <td>Title</td>
+                      <td>
+                             <input data-ng-model="problem.title" type="text"></input>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Content</td>
+                      <td>
+                             <textarea cols="50" rows="10" data-ng-model="problem.content" type="text"></textarea>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <button class="buttonlink" type="submit" data-ng-click="updateContent()">Save</button>
+                          <button class="buttonlink" type="submit" data-ng-click="editContent=false">Cancel</button>
+                      </td>
+                  </tr>
+              </table>
+          </form>        
+      </div>
+        
+      <div  class="col-md-4">
+             <div><span class="title" title="Enter multiple hypothesis.  
+             Enter a prior probability the hypothesis is valid. 
+             Each hypothesis should include 'model' data.
+             The likelihood function will be able to access the model data in conjunction with the data items." >Hypothesis</span>  
+
+            <button ng-show="!editHypothesis" class="buttonlink" href="" ng-click="addHypothesis()" title="Add a new hypothesis">Add</button>             
+
+            <button ng-show="!editHypothesis" class="buttonlink" href="" ng-click="normalizeHypothesis()" title="Normalize the probabilities of all the hypothesis priors">Normalize</button>
+            </div>
+             
+            <script type="text/ng-template" id="model_render2.html">
+                <div ng-if="!checkObject(value2)">
+                    <a  href="" ng-click="selectKeyValue(h,parent,key2,value2)">{{key2}}-->{{value2}}</a><a class="buttonlink" href="" ng-click="deleteKey(h,parent,key2)">-</a>
+                </div>
+                <div ng-if="checkObject(value2)">
+
+                    <a  href="" ng-click="selectKeyContainer(h,parent,key2)">{{key2}}</a><a class="buttonlink" href="" ng-click="addKeyValue(h,value2)">+</a><a class="buttonlink" href="" ng-click="addKeyContainer(h,value2)">[]</a><a class="buttonlink" href="" ng-click="deleteKey(h,parent,key2)">-</a>
+                    <div class="childItems" ng-repeat="(key,value) in value2" ng-include="'model_render.html'" ng-init="parent=value2"/>
+                </div>
+            </script>
+
+            <script type="text/ng-template" id="model_render.html">
+                <div ng-if="!checkObject(value)">
+                    <a href="" ng-click="selectKeyValue(h,parent,key,value)">{{key}}-->{{value}}</a><a class="buttonlink" href="" ng-click="deleteKey(h,parent,key)">-</a>
+                </div>
+                <div ng-if="checkObject(value)">
+                    <a  href="" ng-click="selectKeyContainer(h,parent,key)">{{key}}</a><a class="buttonlink" href="" ng-click="addKeyValue(h,value)">+</a><a class="buttonlink" href="" ng-click="addKeyContainer(h,value)">[]</a><a class="buttonlink" href="" ng-click="deleteKey(h,parent,key)">-</a>
+                    <div class="childItems" ng-repeat="(key2,value2) in value" ng-include="'model_render2.html'" ng-init="parent=value"/>
+                </div>
+            </script>
+
+
+            <div ng-show="!editHypothesis" ng-repeat="h in hypothesis">
+                <a href="" ng-click="selectHypothesis(h)">{{h.name}}[{{h.prior}}]</a>  
+                <a class="buttonlink" href="" ng-click="deleteHypothesis(h)">-</a>
+
+                <a class="buttonlink" href="" ng-click="addKeyValue(h,h.model)">+</a>
+                <a class="buttonlink" href="" ng-click="addKeyContainer(h,h.model)">[]</a>
+
+                <div class="childItems" data-ng-repeat="(key,value) in h.model" ng-include="'model_render.html'" ng-init="parent=h.model">
+                </div>
+
+            </div>
+
+            <form ng-show="editHypothesis" name="edit">
+                <table>
+                    <tr>
+                        <td>Name</td>
+                        <td><input data-ng-model="selectedHypothesis.name" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>Text</td>
+                        <td><input data-ng-model="selectedHypothesis.text" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>Prior</td>
+                        <td><input data-ng-model="selectedHypothesis.prior" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>
+                        <td><textarea rows="10" data-ng-model="selectedHypothesis.jsonModel"> </textarea>  </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="buttonlink" type="submit" data-ng-click="updateHypothesis(selectedHypothesis)">Update</button>
+                            <button class="buttonlink" type="submit" data-ng-click="editHypothesis=false">Cancel</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+        
+            <form ng-show="editModel" name="edit">
+                <table>
+                    <tr>
+                        <td>Key</td>
+                        <td><input data-ng-model="model.key" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>Value</td>
+                        <td><input data-ng-model="model.value" type="number"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="buttonlink" type="submit" data-ng-click="updateKeyValue()">Update</button>
+                            <button class="buttonlink" type="submit" data-ng-click="editModel=false">Cancel</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+
+            <form ng-show="editContainer" name="edit">
+                <table>
+                    <tr>
+                        <td>Key</td>
+                        <td><input data-ng-model="model.key" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="buttonlink" type="submit" data-ng-click="updateKeyContainer()">Update</button>
+                            <button class="buttonlink" type="submit" data-ng-click="editContainer=false">Cancel</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+       
+      </div>         
+
+      <div class="col-md-4" >
+        <div><span class="title" title="Enter a likelihood javascript expression which returns the likelihood of a hypothesis given some particular data.  
+        The 'h' value is the hypothesis model, 
+        the 'd' value is the data item, and 
+        the 'hname' parameter is the hypothesis name. ">Likelihood Expression</span>
+        <button ng-show="!editLikelihood" href="" ng-click="editLikelihood=true;setupExpression()">Edit</button>
+        </div>
+
+
+         <a ng-show="!editLikelihood" href="" ng-click="editLikelihood=true">{{likelihood.expression}}</a>         
+                    
+            <form ng-show="editLikelihood"  name="edit">
+                <table>
+                    <tr>
+                        <td>Expression</td>
+                        <td><input data-ng-model="likelihood.expression" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="buttonlink" type="submit" data-ng-click="updateLikelihood()">Update</button>
+                            <button class="buttonlink" type="submit" data-ng-click="editLikelihood=false">Cancel</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>
+      </div>      
+    </div>  
+
+ <div class="row">
+      <div class="col-md-12" >      
+        <visualizeposterior val="data"/>
+      </div>      
+   </div>
+   
+    <div class="row">
+      <div class="col-md-12" >
+          <div><span class="title" title="Enter a javascript list of data items. ">Datum</span>
+              <button class="buttonlink" href="" ng-click="addDatum()">Add</button>
+              <button class="buttonlink" href="" ng-click="computePosterior()" title="Compute the posterior probability values for each data item in the list. This shows you how your belief in a hypothesis changes as you gain more information.">Compute Posterior</button>
+          </div>
+
+          
+          <div ng-show="!editDatum"  ng-repeat="d in datums">
+            <a href="" ng-click="selectDatum(d)">{{d.expression}}</a> 
+            <button class="buttonlink" href="" ng-click="deleteDatum(d)">delete</button>
+            
+            <table class="table">
+            <tr>
+              <th>Data</th>
+              <th ng-repeat="(k,v) in d.posteriorMap[0].hyp">{{k}}</th>
+            </tr>
+            <tr ng-repeat="r in d.posteriorMap">
+              <td>{{r.data}}</td>
+              <td ng-repeat="(k,v) in r.hyp">
+                <span title="Probability">P({{v}})</span>
+                <br/>
+                <span title="Frequency">F({{r.frequency[k]}})</span>
+                <br/>
+                <span title="Likelihood">L({{r.likelihood[k]}})</span>
+              </td> ;              
+            </tr>
+            </table>
+          </div>
+                 
+            <form ng-show="editDatum" name="edit">
+                <table>
+                    <tr>
+                        <td>Expression</td>
+                        <td><input data-ng-model="selectedDatum.expression" type="text"/><br/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="buttonlink" type="submit" data-ng-click="updateDatum(selectedDatum)">Update</button>
+                            <button class="buttonlink" type="submit" data-ng-click="editDatum=false">Cancel</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </form>          
+      </div>
+  </div>
+ 
+
+      <div class="row" style="background: lightgrey">
+      <div class="col-md-12 graphic" >
+         
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-16">
+         <footer/>
+      </div>
+   </div>
+</div>

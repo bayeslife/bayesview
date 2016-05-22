@@ -1,0 +1,64 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-16">
+         <header/>
+      </div>
+   </div>
+   <div class="row" >
+      <div class="col-md-8">
+         <h2>Bayes View <a href="" ng-click="addProblem()">+</a></h2>
+            This is an application for definining problems that are solved using bayes theorem.
+
+         <table class="table">
+            <thead>
+               <tr>                  
+                  <th>Description</th>
+               </tr>
+            </thead>
+            <tr ng-repeat="problem in problems">               
+               <td ng-bind-html="problem.title"></td>
+               <td><a href="/#/problem/{{problem.datasetId}}">View</a></td>
+               <td><a class="action" href="" ng-click="selectProblem(problem)">Select</a></td>
+                
+                <td><a class="action" href="" ng-click="removeProblem(problem)">Delete</a></td>
+            </tr>
+            </tbody>
+         </table>
+      </div>   
+      <div class="col-md-4"style="background-color: lightgrey">
+         <div ng-if="selectedProblem">
+         <form  name="edit">
+            <table>
+               <tr>
+                  <td>ID</td>
+                  <td>
+                     <input data-ng-model="selectedProblem.datasetId" type="text"/>
+                  </td>                 
+               </tr>
+               <tr>
+                  <td>Title</td>
+                  <td>
+                     <input data-ng-model="selectedProblem.title" type="text"/>
+                  </td>
+               </tr>
+               <tr>
+                  <td></td>
+                  <td>
+                     <button class="buttonlink" type="submit" data-ng-click="updateProblem(problem)">Update</button>                     
+                  </td>
+               </tr>
+            </table>
+         </form>
+         
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-16">
+         <footer/>
+      </div>
+   </div>
+</div>
+
+
+

@@ -18,3 +18,9 @@ Will it rain tomorrow
 Dragons Dice
 ![alt text](http://xceptionale.com/assets/images/3f1b3a7f.Bayes4.png "Dragons Dice")
 
+# Run
+
+npm install
+bower install
+grunt serve 
+

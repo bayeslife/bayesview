@@ -1,0 +1,58 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-16">
+         <header/>
+      </div>
+   </div>
+   <div class="row" >
+      <div class="col-md-16">
+         <h2>Bayes View <a href="" ng-click="addDataSet()">+</a></h2>
+            This is an application for definining problems that are solved using bayes theorem.
+
+         <table class="table">
+            <thead>
+               <tr>
+                  <th>Problem</th>
+                  <th>Description</th>
+               </tr>
+            </thead>
+            <tr ng-repeat="p in problems">
+               
+               <td>{{p._id}}</td>
+               <td>{{p.content}}</td>
+               <td><a href="/#/bayesview/{{p._id}}">View</a></td>
+               <td><a class="action" href="" ng-click="selectProblem(problem)">Select</a></td>
+                <td><a class="action" href="" ng-click="updateProblem(problem)">Update</a></td>
+                <td><a class="action" href="" ng-click="removeProblem(problem)">Delete</a></td>
+            </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-16"style="background-color: lightgrey">
+         <form ng-if="selectedProblem" name="edit">
+            <table>
+               <tr>
+                  <td>
+                     <input data-ng-model="selectedProblem.name" type="text"/>
+                  </td>                 
+               </tr>
+               <tr>
+                  <td>
+                     <input data-ng-model="selectedProblem.description" type="text"/>
+                  </td>
+               </tr>
+            </table>
+         </form>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-16">
+         <footer/>
+      </div>
+   </div>
+</div>
+
+
+
