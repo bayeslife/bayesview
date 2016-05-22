@@ -24,3 +24,7 @@ npm install
 bower install
 grunt serve 
 
+# Backend
+
+A Couch DB is the backend for this application
+
